@@ -10,14 +10,10 @@
 (def generator  (towersampling.tower/tower-sampling events))
 
 
-(def sample-size 1000)
+(def sample-size 10000)
 (deftest tower-sampling-test
   (testing "Test tower sampling"
     (let [results (frequencies (take sample-size (repeatedly generator)))
-          freq-sleep-diff (- (results "sleep") 0.33)]
-      (do
-        (println "diff:" freq-sleep-diff " results:" results)
-        (is (< freq-sleep-diff 1e-2))))))
-
-
-(tower-sampling-test) 
+          probabilities (into {} (for [[k v] results] [k (/ v sample-size)]))
+          freq-sleep-diff (- (probabilities "sleep") 0.33)]
+      (is (< freq-sleep-diff 1e-2)))))
