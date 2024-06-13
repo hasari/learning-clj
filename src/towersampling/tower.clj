@@ -9,10 +9,10 @@
 ;; This can be used to generate events for giving distribution
 ;; For example, for following distribution,
 
-;; (def events {"sleep" 0.33
-;;             "walk" 0.05
-;;             "watch" 0.35
-;;             "eat" 0.27})
+;; (def events {:sleep 0.33
+;;             :walk 0.05
+;;             :watch 0.35
+;;             :eat 0.27})
 ;; (def generator  (towersampling.tower/tower-sampling events))
 ;; (take 1000 (repeatedly generator))
 
