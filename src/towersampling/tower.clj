@@ -5,6 +5,18 @@
    [clojure.string :as str]))
 
 
+;; Each bucket of probability sum of all previous probabilities
+;; (def probabilities (reduce #(into %1 [(+ (if (last %1) (last %1) 0) %2)]) [] event-probabilities))
+(defn contruct-probabilities [event-probabilities]
+  (loop [res []
+         xs  event-probabilities]
+    (if (empty? xs)
+      res
+      (recur (conj res (+ (first xs)
+                          (or (last res) 0)))
+             (rest xs)))))
+
+
 ;; Sampler samples data according to given discrete distribution
 ;; This can be used to generate events for giving distribution
 ;; For example, for following distribution,
@@ -18,32 +30,10 @@
 
 ;; the sampler will return sleep with 33% probability and  walk with 5% probability.
 (defn tower-sampling [events]
-  "Samples data according to given discrete distribution.
-   This can be used to generate events for giving  probability distribution
-  "
-
-  (def event-probabilities (vals events))
-  (def event-names (keys events))
-
-  ;; (def probabilities (loop [prev 0 result [] probs event-probabilities]
-  ;;                      (if (first probs)
-  ;;                        (let [next-prob (+ prev (first probs))]
-  ;;                          (recur next-prob (conj result next-prob) (rest probs)))
-  ;;                        result)))
-  (def probabilities
-    (loop [res []
-           xs  event-probabilities]
-      (if (empty? xs)
-        res
-        (recur (conj res (+ (first xs)
-                            (or (last res) 0)))
-               (rest xs)))))
-
-  ; each bucket of probability sum of all previous probabilities
-  ;; (def probabilities (reduce #(into %1 [(+ (if (last %1) (last %1) 0) %2)]) [] event-probabilities))
-
-  (fn [] (let [p (rand)
-               index (first (keep-indexed #(when (<= p %2) %1) probabilities))]
-           (nth event-names index))))
-
+ 
+  (let [event-names (keys events)
+        probabilities (contruct-probabilities (vals events))]
+    (fn [] (let [p (rand)
+                 index (first (keep-indexed #(when (<= p %2) %1) probabilities))]
+             (nth event-names index)))))
 
