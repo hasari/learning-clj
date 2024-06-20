@@ -1,5 +1,6 @@
 (ns towersampling.tower_test
   (:require
+   [towersampling.tower]
    [clojure.test :refer [are deftest is testing run-all-tests]]))
 
 (def events {:sleep 0.33
@@ -17,4 +18,5 @@
           probabilities (into {} (for [[k v] results] [k (/ v sample-size)]))
           freq-sleep-diff (- (:sleep probabilities) 0.33)]
       (is (< freq-sleep-diff 1e-2)))))
-(tower-sampling-test)
+
+(run-all-tests)

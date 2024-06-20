@@ -1,5 +1,9 @@
 # Learning Clojure
 
+This project contains various modules that exercise Clojure concepts. Moreover it includes deps.edn and build.clj file for dependencies and build. build.clj contains logic for creating uber jar.
+
+## Module: Tower Sampler
+
 This utility samples data according to given discrete distribution. This can be used to generate events for giving distribution. For example, for following distribution
 
 ```clojure
@@ -14,3 +18,19 @@ This utility samples data according to given discrete distribution. This can be 
 ```
 
 The sampler will return sleep with 33% probability and walk with 5% probability.
+
+# Module: Optin/Optout
+
+This module exercises Clojure/DB functionality
+
+# Building uber jar
+
+```bash
+clj -T:build uber
+```
+
+Run the app as:
+
+```bash
+java -jar target/demo-lib-1.7-standalone.jar
+```
