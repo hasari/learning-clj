@@ -40,3 +40,9 @@ java -jar target/demo-lib-1.7-standalone.jar
 ```bash
 clj -M:test
 ```
+
+# Generate docs
+
+```bash
+clj -X:codox
+```
