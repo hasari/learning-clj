@@ -34,3 +34,9 @@ Run the app as:
 ```bash
 java -jar target/demo-lib-1.7-standalone.jar
 ```
+
+# Run Test Cases
+
+```bash
+clj -M:test
+```
