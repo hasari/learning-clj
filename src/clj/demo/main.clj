@@ -3,6 +3,16 @@
   (:require
    [towersampling.tower]))
 
+(comment
+
+  (defn hashx [n] (str "xx" n))
+  (def precision 7)
+
+  (let [number 4]
+    (->> (hashx precision)
+         (iterate #((hashx 6) %))
+         (println (take number))))
+)
 
 (def events {:sleep 0.33
              :walk 0.05

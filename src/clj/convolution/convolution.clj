@@ -49,25 +49,36 @@
 
 
 
-(defn m-mult [p q] (do (println p q) (partition-all (count p) (for [x p y q] (* x y)))))
+(defn m-mult [p q] (partition-all (count p) (for [x p y q] (* x y))))
 
 (defn mvec [n p q]
-  (let [
-        f (take (+ n 1) p)
-        rp (rest p)
+  (println "n:" n " p:" p " q:" q)
+  (let [f (take n p)
+        rp (drop n p)
         ad (mapv + rp q)
         l (list (last q))]
-    (do
-      (println "--" p q " ad:" ad " rp:" rp " ---f:" f)
-      (list (+ n 1) (concat f ad l)))))
+
+    (println "f:" f "rp:" rp  " ad:" ad " l:" l " combined:" (concat f ad l))
+    (concat f ad l)))
+
+
+(defn func-convo-proper
+  [p q]
+  (println " p:" p " q:" q)
+  (let [parts (m-mult p q)]
+    (loop [rem parts i 0]
+      (let [[f s & res] rem
+            result (mvec (inc i) f s)]
+        (println "f:" f " s:" s " res:" res " i:" i " result:" result)
+        (if (empty? res)
+          result
+          (recur (cons result res) (inc i)))))))
 
 
 
-;; (defn func-convo-proper
-;;   [p q]
-;;   (loop [parts (map-indexed (fn [idx itm] [idx itm]) (m-mult p q))]
-;;     (println parts " :--->")
-;;     (reduce mvec 1 parts)))
+
+
+
 
 
 (def x [2 3 4])
@@ -75,4 +86,4 @@
 
 
 ;(10 27 52 50 34 7)
-;(func-convo-proper h x)
+(func-convo-proper h x)
